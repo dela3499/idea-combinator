@@ -68,10 +68,16 @@ update action model =
 
         ( results, newSeed ) =
           Random.generate (generateSubstitutions dict model.seedString) model.seed
+          
+        headerText =
+          [ "ALT + Enter = Run"
+          , "ALT + h = Show or hide Help"
+          ]
+
       in
         { model
           | help = False
-          , results = results
+          , results = headerText ++ results
           , seed = newSeed
         }
 

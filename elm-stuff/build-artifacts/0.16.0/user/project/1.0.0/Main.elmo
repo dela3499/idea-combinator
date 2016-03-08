@@ -26,14 +26,15 @@ Elm.Main.make = function (_elm) {
       {case "SetSeedString": return _U.update(model,{seedString: _p0._0});
          case "SetSearchString": return _U.update(model,{searchStrings: A3($Array.set,_p0._0,_p0._1,model.searchStrings)});
          case "SetReplaceStringList": return _U.update(model,{replaceStringLists: A3($Array.set,_p0._0,_p0._1,model.replaceStringLists)});
-         case "ComputeSubstitutions": var dict = $Dict.fromList(A3($List.map2,
+         case "ComputeSubstitutions": var headerText = _U.list(["ALT + Enter = Run","ALT + h = Show or hide Help"]);
+           var dict = $Dict.fromList(A3($List.map2,
            F2(function (v0,v1) {    return {ctor: "_Tuple2",_0: v0,_1: v1};}),
            $Array.toList(model.searchStrings),
            $Array.toList(model.replaceStringLists)));
            var _p1 = A2($Random$PCG.generate,A2($Replacements.generateSubstitutions,dict,model.seedString),model.seed);
            var results = _p1._0;
            var newSeed = _p1._1;
-           return _U.update(model,{help: false,results: results,seed: newSeed});
+           return _U.update(model,{help: false,results: A2($Basics._op["++"],headerText,results),seed: newSeed});
          case "Animate": return _U.update(model,{t: model.t + _p0._0});
          case "Help": return _U.update(model,{help: $Basics.not(model.help)});
          default: return model;}
