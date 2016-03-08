@@ -1,0 +1,73 @@
+Elm.Replacements = Elm.Replacements || {};
+Elm.Replacements.make = function (_elm) {
+   "use strict";
+   _elm.Replacements = _elm.Replacements || {};
+   if (_elm.Replacements.values) return _elm.Replacements.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Array = Elm.Array.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Dict = Elm.Dict.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Random$PCG = Elm.Random.PCG.make(_elm),
+   $Regex = Elm.Regex.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Set = Elm.Set.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var unique = function () {
+      var helper = F2(function (set,things) {
+         helper: while (true) {
+            var _p0 = things;
+            if (_p0.ctor === "[]") {
+                  return _U.list([]);
+               } else {
+                  var _p2 = _p0._1;
+                  var _p1 = _p0._0;
+                  if (A2($Set.member,_p1,set)) {
+                        var _v1 = set,_v2 = _p2;
+                        set = _v1;
+                        things = _v2;
+                        continue helper;
+                     } else return A2($List._op["::"],_p1,A2(helper,A2($Set.insert,_p1,set),_p2));
+               }
+         }
+      });
+      return helper($Set.empty);
+   }();
+   var sample = function (strings) {
+      return A2($Random$PCG.map,
+      function (i) {
+         return A2($Maybe.withDefault,"",A2($Array.get,i,$Array.fromList(strings)));
+      },
+      A2($Random$PCG.$int,0,$List.length(strings) - 1));
+   };
+   var replaceString = F2(function (_p3,string) {
+      var _p4 = _p3;
+      return A4($Regex.replace,$Regex.All,$Regex.regex(_p4._0),function (_p5) {    return _p4._1;},string);
+   });
+   var replaceStringRandomly = F2(function (_p6,string) {
+      var _p7 = _p6;
+      return A2($Random$PCG.map,function (replacement) {    return A2(replaceString,{ctor: "_Tuple2",_0: _p7._0,_1: replacement},string);},sample(_p7._1));
+   });
+   var replaceAllRandomly = F2(function (string,replacements) {
+      var _p8 = replacements;
+      if (_p8.ctor === "[]") {
+            return $Random$PCG.constant(string);
+         } else {
+            return A2($Random$PCG.andThen,A2(replaceStringRandomly,_p8._0,string),function (newString) {    return A2(replaceAllRandomly,newString,_p8._1);});
+         }
+   });
+   var replaceAllRandomlyRepeat = F2(function (string,replacements) {
+      return A2($Random$PCG.andThen,
+      A2(replaceAllRandomly,string,replacements),
+      function (replacedString) {
+         return _U.eq(string,replacedString) ? $Random$PCG.constant(string) : A2(replaceAllRandomlyRepeat,replacedString,replacements);
+      });
+   });
+   var generateSubstitutions = F2(function (substitutions,string) {
+      return A2($Random$PCG.map,unique,A2($Random$PCG.list,100,A2(replaceAllRandomlyRepeat,string,$Dict.toList(substitutions))));
+   });
+   return _elm.Replacements.values = {_op: _op,generateSubstitutions: generateSubstitutions};
+};

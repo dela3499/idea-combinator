@@ -1,0 +1,55 @@
+Elm.Main = Elm.Main || {};
+Elm.Main.make = function (_elm) {
+   "use strict";
+   _elm.Main = _elm.Main || {};
+   if (_elm.Main.values) return _elm.Main.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Array = Elm.Array.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Common = Elm.Common.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Dict = Elm.Dict.make(_elm),
+   $Keyboard = Elm.Keyboard.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Random$PCG = Elm.Random.PCG.make(_elm),
+   $Replacements = Elm.Replacements.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Set = Elm.Set.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $Time = Elm.Time.make(_elm),
+   $View = Elm.View.make(_elm);
+   var _op = {};
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      switch (_p0.ctor)
+      {case "SetSeedString": return _U.update(model,{seedString: _p0._0});
+         case "SetSearchString": return _U.update(model,{searchStrings: A3($Array.set,_p0._0,_p0._1,model.searchStrings)});
+         case "SetReplaceStringList": return _U.update(model,{replaceStringLists: A3($Array.set,_p0._0,_p0._1,model.replaceStringLists)});
+         case "ComputeSubstitutions": var dict = $Dict.fromList(A3($List.map2,
+           F2(function (v0,v1) {    return {ctor: "_Tuple2",_0: v0,_1: v1};}),
+           $Array.toList(model.searchStrings),
+           $Array.toList(model.replaceStringLists)));
+           var _p1 = A2($Random$PCG.generate,A2($Replacements.generateSubstitutions,dict,model.seedString),model.seed);
+           var results = _p1._0;
+           var newSeed = _p1._1;
+           return _U.update(model,{help: false,results: results,seed: newSeed});
+         case "Animate": return _U.update(model,{t: model.t + _p0._0});
+         case "Help": return _U.update(model,{help: $Basics.not(model.help)});
+         default: return model;}
+   });
+   var animate = A2($Signal.map,$Common.Animate,$Time.fps(60));
+   var keys = function () {
+      var getAction = function (keycodes) {
+         return A2($Set.member,13,keycodes) && A2($Set.member,18,keycodes) ? $Common.ComputeSubstitutions : A2($Set.member,72,keycodes) && A2($Set.member,
+         18,
+         keycodes) ? $Common.Help : $Common.NoOp;
+      };
+      return A2($Signal.map,getAction,$Keyboard.keysDown);
+   }();
+   var mailbox = $Signal.mailbox($Common.NoOp);
+   var actions = $Signal.mergeMany(_U.list([mailbox.signal,keys,animate]));
+   var model = A3($Signal.foldp,update,$Common.initialModel,actions);
+   var main = A2($Signal.map,$View.view(mailbox.address),model);
+   return _elm.Main.values = {_op: _op,mailbox: mailbox,actions: actions,model: model,main: main,keys: keys,animate: animate,update: update};
+};

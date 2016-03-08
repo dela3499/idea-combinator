@@ -1,0 +1,229 @@
+Elm.View = Elm.View || {};
+Elm.View.make = function (_elm) {
+   "use strict";
+   _elm.View = _elm.View || {};
+   if (_elm.View.values) return _elm.View.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Array = Elm.Array.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Common = Elm.Common.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $String = Elm.String.make(_elm);
+   var _op = {};
+   var resultOutputStyle$ = function (alignment) {
+      return $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "background-color",_1: "#332F2C"}
+                                            ,{ctor: "_Tuple2",_0: "color",_1: "lightgrey"}
+                                            ,{ctor: "_Tuple2",_0: "width",_1: "90%%"}
+                                            ,{ctor: "_Tuple2",_0: "box-sizing",_1: "border-box"}
+                                            ,{ctor: "_Tuple2",_0: "padding",_1: "10px 10px"}
+                                            ,{ctor: "_Tuple2",_0: "border-bottom",_1: "5px solid grey"}
+                                            ,{ctor: "_Tuple2",_0: "text-align",_1: alignment}]));
+   };
+   var resultOutputStyle = function (alignment) {
+      return $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "background-color",_1: "#332F2C"}
+                                            ,{ctor: "_Tuple2",_0: "color",_1: "lightgrey"}
+                                            ,{ctor: "_Tuple2",_0: "width",_1: "90%%"}
+                                            ,{ctor: "_Tuple2",_0: "box-sizing",_1: "border-box"}
+                                            ,{ctor: "_Tuple2",_0: "padding",_1: "5px 10px"}
+                                            ,{ctor: "_Tuple2",_0: "border-bottom",_1: A2($Basics._op["++"],"1px solid ","grey")}
+                                            ,{ctor: "_Tuple2",_0: "text-align",_1: alignment}]));
+   };
+   var replaceStringListInputStyle = function (opacity) {
+      return $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "background-color",_1: "#2588A2"}
+                                            ,{ctor: "_Tuple2",_0: "color",_1: "white"}
+                                            ,{ctor: "_Tuple2",_0: "width",_1: "100%"}
+                                            ,{ctor: "_Tuple2",_0: "height",_1: "100%"}
+                                            ,{ctor: "_Tuple2",_0: "box-sizing",_1: "border-box"}
+                                            ,{ctor: "_Tuple2",_0: "padding",_1: "10px 10px"}
+                                            ,{ctor: "_Tuple2",_0: "border",_1: "none"}
+                                            ,{ctor: "_Tuple2",_0: "resize",_1: "none"}
+                                            ,{ctor: "_Tuple2",_0: "font-family",_1: "Arial"}
+                                            ,{ctor: "_Tuple2",_0: "opacity",_1: opacity}]));
+   };
+   var searchStringInputStyle = function (opacity) {
+      return $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "background-color",_1: "grey"}
+                                            ,{ctor: "_Tuple2",_0: "font-weight",_1: "bold"}
+                                            ,{ctor: "_Tuple2",_0: "color",_1: "white"}
+                                            ,{ctor: "_Tuple2",_0: "width",_1: "100%"}
+                                            ,{ctor: "_Tuple2",_0: "height",_1: "100%"}
+                                            ,{ctor: "_Tuple2",_0: "border",_1: "none"}
+                                            ,{ctor: "_Tuple2",_0: "padding",_1: "5px 10px"}
+                                            ,{ctor: "_Tuple2",_0: "box-sizing",_1: "border-box"}
+                                            ,{ctor: "_Tuple2",_0: "opacity",_1: opacity}]));
+   };
+   var groupInputStyle = $Html$Attributes.style(_U.list([{ctor: "_Tuple2"
+                                                         ,_0: "width"
+                                                         ,_1: function (x) {
+                                                            return A2(F2(function (x,y) {    return A2($Basics._op["++"],x,y);}),x,"%");
+                                                         }($Basics.toString(200 / $Basics.toFloat($Common.nGroups)))}
+                                                        ,{ctor: "_Tuple2",_0: "height",_1: "100%"}
+                                                        ,{ctor: "_Tuple2",_0: "float",_1: "left"}
+                                                        ,{ctor: "_Tuple2",_0: "box-sizing",_1: "border-box"}]));
+   var groupInputsStyle = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "height",_1: "100%"}
+                                                         ,{ctor: "_Tuple2",_0: "width",_1: "100%"}
+                                                         ,{ctor: "_Tuple2",_0: "box-sizing",_1: "border-box"}]));
+   var groupWrapperStyle = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "height",_1: "45%"}
+                                                          ,{ctor: "_Tuple2",_0: "width",_1: "100%"}
+                                                          ,{ctor: "_Tuple2",_0: "overflow",_1: "clip"}
+                                                          ,{ctor: "_Tuple2",_0: "box-sizing",_1: "border-box"}]));
+   var inputPanelStyle = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "height",_1: "100%"}
+                                                        ,{ctor: "_Tuple2",_0: "width",_1: "70%"}
+                                                        ,{ctor: "_Tuple2",_0: "box-sizing",_1: "border-box"}
+                                                        ,{ctor: "_Tuple2",_0: "float",_1: "right"}]));
+   var infoPanelStyle = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "height",_1: "10%"}
+                                                       ,{ctor: "_Tuple2",_0: "background-color",_1: "white"}
+                                                       ,{ctor: "_Tuple2",_0: "color",_1: "B28E39"}
+                                                       ,{ctor: "_Tuple2",_0: "text-align",_1: "center"}
+                                                       ,{ctor: "_Tuple2",_0: "font-weight",_1: "bold"}
+                                                       ,{ctor: "_Tuple2",_0: "font-size",_1: "2em"}
+                                                       ,{ctor: "_Tuple2",_0: "padding",_1: "15px 15px"}
+                                                       ,{ctor: "_Tuple2",_0: "box-sizing",_1: "border-box"}]));
+   var backgroundColor = "#103A45";
+   var pageStyle = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "top",_1: "0px"}
+                                                  ,{ctor: "_Tuple2",_0: "bottom",_1: "0px"}
+                                                  ,{ctor: "_Tuple2",_0: "left",_1: "0px"}
+                                                  ,{ctor: "_Tuple2",_0: "right",_1: "0px"}
+                                                  ,{ctor: "_Tuple2",_0: "position",_1: "absolute"}
+                                                  ,{ctor: "_Tuple2",_0: "background",_1: backgroundColor}
+                                                  ,{ctor: "_Tuple2",_0: "box-sizing",_1: "border-box"}
+                                                  ,{ctor: "_Tuple2",_0: "padding",_1: "20px"}]));
+   var seedStringInputStyle = function (opacity) {
+      return $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "background-color",_1: "#332F2C"}
+                                            ,{ctor: "_Tuple2",_0: "font-size",_1: "1.2em"}
+                                            ,{ctor: "_Tuple2",_0: "font-style",_1: "italic"}
+                                            ,{ctor: "_Tuple2",_0: "color",_1: "white"}
+                                            ,{ctor: "_Tuple2",_0: "width",_1: "100%"}
+                                            ,{ctor: "_Tuple2",_0: "height",_1: "10%"}
+                                            ,{ctor: "_Tuple2",_0: "float",_1: "left"}
+                                            ,{ctor: "_Tuple2",_0: "border",_1: "none"}
+                                            ,{ctor: "_Tuple2",_0: "padding",_1: "10px 15px"}
+                                            ,{ctor: "_Tuple2",_0: "box-sizing",_1: "border-box"}
+                                            ,{ctor: "_Tuple2",_0: "border-top",_1: A2($String.join," ",_U.list(["4px solid",backgroundColor]))}
+                                            ,{ctor: "_Tuple2",_0: "opacity",_1: opacity}
+                                            ,{ctor: "_Tuple2",_0: "border",_1: "solid 1px grey"}]));
+   };
+   var searchStringInputStyle$ = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "width",_1: "100%"}
+                                                                ,{ctor: "_Tuple2",_0: "height",_1: "15%"}
+                                                                ,{ctor: "_Tuple2",_0: "box-sizing",_1: "border-box"}
+                                                                ,{ctor: "_Tuple2"
+                                                                 ,_0: "border-right"
+                                                                 ,_1: A2($String.join," ",_U.list(["4px solid",backgroundColor]))}
+                                                                ,{ctor: "_Tuple2"
+                                                                 ,_0: "border-top"
+                                                                 ,_1: A2($String.join," ",_U.list(["4px solid",backgroundColor]))}
+                                                                ,{ctor: "_Tuple2",_0: "border-bottom",_1: "none"}]));
+   var replaceStringListInputStyle$ = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "width",_1: "100%"}
+                                                                     ,{ctor: "_Tuple2",_0: "height",_1: "85%"}
+                                                                     ,{ctor: "_Tuple2",_0: "box-sizing",_1: "border-box"}
+                                                                     ,{ctor: "_Tuple2"
+                                                                      ,_0: "border"
+                                                                      ,_1: A2($String.join," ",_U.list(["4px solid",backgroundColor]))}
+                                                                     ,{ctor: "_Tuple2",_0: "border-left",_1: "none"}]));
+   var outputPanelStyle = $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "background-color",_1: "#332F2C"}
+                                                         ,{ctor: "_Tuple2",_0: "width",_1: "30%"}
+                                                         ,{ctor: "_Tuple2",_0: "height",_1: "100%"}
+                                                         ,{ctor: "_Tuple2",_0: "box-sizing",_1: "border-box"}
+                                                         ,{ctor: "_Tuple2",_0: "float",_1: "left"}
+                                                         ,{ctor: "_Tuple2",_0: "border",_1: A2($String.join," ",_U.list(["5px solid",backgroundColor]))}
+                                                         ,{ctor: "_Tuple2",_0: "border-left",_1: "none"}
+                                                         ,{ctor: "_Tuple2",_0: "overflow-y",_1: "scroll"}
+                                                         ,{ctor: "_Tuple2",_0: "padding",_1: "10px 10px"}]));
+   var resultOutput = function (string) {
+      var alignment = _U.eq(string,"HELP") ? "center" : "left";
+      return A2($Html.div,_U.list([resultOutputStyle(alignment)]),_U.list([$Html.text(string)]));
+   };
+   var outputPanel = F2(function (address,model) {
+      var items = model.help ? $Common.helpText : model.results;
+      return A2($Html.div,_U.list([outputPanelStyle]),A2($List.map,resultOutput,items));
+   });
+   var replaceStringListInput = F3(function (address,model,i) {
+      var valueString = A2($String.join,"\n",A2($Maybe.withDefault,_U.list([]),A2($Array.get,i,model.replaceStringLists)));
+      var searchString = A2($Maybe.withDefault,"",A2($Array.get,i,model.searchStrings));
+      return A2($Html.textarea,
+      _U.list([$Html$Attributes.value(valueString)
+              ,A3($Html$Events.on,
+              "input",
+              $Html$Events.targetValue,
+              function (x) {
+                 return A2($Signal.message,address,A2($Common.SetReplaceStringList,i,$String.lines(x)));
+              })
+              ,replaceStringListInputStyle(_U.eq(searchString,"") ? "0.5" : "1")]),
+      _U.list([]));
+   });
+   var searchStringInput = F3(function (address,model,i) {
+      var searchString = A2($Maybe.withDefault,"",A2($Array.get,i,model.searchStrings));
+      return A2($Html.input,
+      _U.list([$Html$Attributes.placeholder("")
+              ,A3($Html$Events.on,"input",$Html$Events.targetValue,function (x) {    return A2($Signal.message,address,A2($Common.SetSearchString,i,x));})
+              ,$Html$Attributes.value(searchString)
+              ,searchStringInputStyle(_U.eq(searchString,"") ? "0.5" : "1")]),
+      _U.list([]));
+   });
+   var groupInput = F3(function (address,model,i) {
+      return A2($Html.div,
+      _U.list([groupInputStyle]),
+      _U.list([A2($Html.div,_U.list([searchStringInputStyle$]),_U.list([A3(searchStringInput,address,model,i)]))
+              ,A2($Html.div,_U.list([replaceStringListInputStyle$]),_U.list([A3(replaceStringListInput,address,model,i)]))]));
+   });
+   var seedStringInput = F2(function (address,model) {
+      var opacity = _U.eq(model.seedString,$Common.initialModel.seedString) ? $Basics.toString($Basics.sin(model.t / 500) * 0.3 + 0.7) : "1";
+      return A2($Html.input,
+      _U.list([$Html$Attributes.placeholder("Write a sentence here. I #verb this!")
+              ,A3($Html$Events.on,"input",$Html$Events.targetValue,function (x) {    return A2($Signal.message,address,$Common.SetSeedString(x));})
+              ,$Html$Attributes.value(model.seedString)
+              ,seedStringInputStyle(opacity)]),
+      _U.list([]));
+   });
+   var infoPanel = F2(function (address,model) {    return A2($Html.div,_U.list([infoPanelStyle]),_U.list([$Html.text("Combinator")]));});
+   var halves = function (list) {    var n = $List.length(list) / 2 | 0;return {ctor: "_Tuple2",_0: A2($List.take,n,list),_1: A2($List.drop,n,list)};};
+   var inputPanel = F2(function (address,model) {
+      var _p0 = halves(_U.range(0,$Array.length(model.searchStrings) - 1));
+      var topRowIndices = _p0._0;
+      var bottomRowIndices = _p0._1;
+      var generateInputs = function (range) {    return A2($List.map,function (i) {    return A3(groupInput,address,model,i);},range);};
+      var groupInputs1 = generateInputs(topRowIndices);
+      var groupInputs2 = generateInputs(bottomRowIndices);
+      return A2($Html.div,
+      _U.list([inputPanelStyle]),
+      _U.list([A2(seedStringInput,address,model)
+              ,A2($Html.div,
+              _U.list([groupWrapperStyle]),
+              _U.list([A2($Html.div,_U.list([groupInputsStyle]),groupInputs1),A2($Html.div,_U.list([groupInputsStyle]),groupInputs2)]))]));
+   });
+   var view = F2(function (address,model) {
+      return A2($Html.div,_U.list([pageStyle]),_U.list([A2(inputPanel,address,model),A2(outputPanel,address,model)]));
+   });
+   return _elm.View.values = {_op: _op
+                             ,halves: halves
+                             ,view: view
+                             ,infoPanel: infoPanel
+                             ,inputPanel: inputPanel
+                             ,seedStringInput: seedStringInput
+                             ,groupInput: groupInput
+                             ,searchStringInput: searchStringInput
+                             ,replaceStringListInput: replaceStringListInput
+                             ,outputPanel: outputPanel
+                             ,resultOutput: resultOutput
+                             ,backgroundColor: backgroundColor
+                             ,pageStyle: pageStyle
+                             ,infoPanelStyle: infoPanelStyle
+                             ,inputPanelStyle: inputPanelStyle
+                             ,groupWrapperStyle: groupWrapperStyle
+                             ,groupInputsStyle: groupInputsStyle
+                             ,seedStringInputStyle: seedStringInputStyle
+                             ,groupInputStyle: groupInputStyle
+                             ,searchStringInputStyle: searchStringInputStyle
+                             ,searchStringInputStyle$: searchStringInputStyle$
+                             ,replaceStringListInputStyle: replaceStringListInputStyle
+                             ,replaceStringListInputStyle$: replaceStringListInputStyle$
+                             ,outputPanelStyle: outputPanelStyle
+                             ,resultOutputStyle: resultOutputStyle
+                             ,resultOutputStyle$: resultOutputStyle$};
+};
